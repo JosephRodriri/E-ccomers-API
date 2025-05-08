@@ -1,23 +1,37 @@
 package com.example.apieccomers.model;
 
+import jakarta.persistence.*;
+
 import java.util.Date;
 
+@Entity
+@Table(name = "ordenes")
 public class Orden {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String numero;
     private Date fechaCreacion;
     private Date fechaRecibida;
     private double total;
 
+    @ManyToOne
+    private Usuario usuario;
+
+    @OneToOne(mappedBy = "orden")
+    private DetalleOrden detalleOrden;
+
     public Orden() {
     }
 
-    public Orden(int id, String numero, Date fechaCreacion, Date fechaRecibida, double total) {
+    public Orden(int id, String numero, Date fechaCreacion, Date fechaRecibida, double total, Usuario usuario, DetalleOrden detalleOrden) {
         this.id = id;
         this.numero = numero;
         this.fechaCreacion = fechaCreacion;
         this.fechaRecibida = fechaRecibida;
         this.total = total;
+        this.usuario = usuario;
+        this.detalleOrden = detalleOrden;
     }
     public int getId() {
         return id;
@@ -50,6 +64,22 @@ public class Orden {
         this.total = total;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public DetalleOrden getDetalleOrden() {
+        return detalleOrden;
+    }
+
+    public void setDetalleOrden(DetalleOrden detalleOrden) {
+        this.detalleOrden = detalleOrden;
+    }
+
     @Override
     public String toString() {
         return "Orden{" +
@@ -58,6 +88,8 @@ public class Orden {
                 ", fechaCreacion=" + fechaCreacion +
                 ", fechaRecibida=" + fechaRecibida +
                 ", total=" + total +
+                ", usuario=" + usuario +
+                ", detalleOrden=" + detalleOrden +
                 '}';
     }
 }
